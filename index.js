@@ -160,6 +160,38 @@ app.get('/api/admin/live-status', async (req, res) => {
   res.json(formattedData);
 });
 
+// -------------------------------------------------------------
+// ENDPOINT: VERIFY ADMINISTRATOR LOGIN ROUTE VIA SUPABASE AUTH
+// -------------------------------------------------------------
+app.post('/api/admin/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Authenticate credentials against Supabase identity core
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) return res.status(401).json({ error: authError.message });
+
+    // Validate that this authenticated identity exists inside your `admin_users` table
+    const { data: adminCheck, error: tableError } = await supabase
+      .from('admin_users')
+      .select('role')
+      .eq('email', email)
+      .single();
+
+    if (tableError || !adminCheck || adminCheck.role !== 'admin') {
+      return res.status(403).json({ error: "Access denied. You do not hold administrator rights." });
+    }
+
+    res.json({ success: true, user: authData.user });
+  } catch (err) {
+    res.status(500).json({ error: "Internal Auth Gateway crash." });
+  }
+});
+
 // INTERNAL HELPER: SETUP NODE-MAILER DYNAMICALLY FROM DATABASE SMTP ROWS
 async function sendAlertEmail(siteId, messageText) {
   try {
