@@ -1,1 +1,23 @@
-{"name":"carwash-iot-dashboard","version":"1.0.0","description":"Real-time CarWash IoT tracking dashboard with admin console","main":"server/index.js","scripts":{"server":"node server/index.js","client":"npx vite client --open","dev":"concurrently \"npm run server\" \"npm run client\""},"dependencies":{"concurrently":"^8.2.2","cors":"^2.8.5","express":"^4.18.2","node-cron":"^3.0.3","nodemailer":"^6.9.7","react":"^18.2.0","react-dom":"^18.2.0","recharts":"^2.10.3"},"devDependencies":{"@vitejs/plugin-react":"^6.0.2","vite":"^8.0.13"}}
+{
+  "name": "carwash-dashboard-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.12.7"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.3.1"
+  }
+}
